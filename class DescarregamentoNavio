@@ -89,9 +89,7 @@ System.out.println(
     "Ian Ramos Texeira - 12622111817\n" +
     "Juliana Helena Mendes Pereira - 12622112925\n" +
     "Luiz Marcelo dos Santos Nogueira - 1262216844\n" +
-    "Matheus Ferreira de Freitas - 12622112086\n" +
-    "Daniel Cafezeiro dos Santos - 1262218306\n" +
-    "Marcos Felipe Magalhães Pimentel - 1262210875\n"
+    "Matheus Ferreira de Freitas - 12622112086\n"
 );
 
     }
