@@ -2,36 +2,25 @@ import java.util.*;
 
 public class DescarregamentoNavio {
 
-    // Limite dos recipientes
     static final int CAPACIDADE_ARMAZEM = 100;
     static final int CAPACIDADE_CAMINHAO = 50;
 
-    // Faixa de volume dos contêineres tipo A e B
-    static final int MIN_TIPO_A = 10, MAX_TIPO_A = 20;
-    static final int MIN_TIPO_B = 25, MAX_TIPO_B = 40;
+    // Entrada manual dos volumes dos contêineres
+    public static Integer[] lerVolumesDoUsuario() {
+        Scanner scanner = new Scanner(System.in);
 
-    // Quantidade mínima e máxima de contêineres que podem ser descarregados
-    static final int MIN_CONTAINERS = 20;
-    static final int MAX_CONTAINERS = 30;
+        System.out.print("Digite o número de contêineres: ");
+        int quantidade = scanner.nextInt();
 
-    // Gera volumes aleatórios pra simular os contêineres
-    public static int[] gerarVolumesAleatorios(int quantidade) {
-        Random random = new Random();
-        int[] volumes = new int[quantidade];
-
+        Integer[] volumes = new Integer[quantidade];
         for (int i = 0; i < quantidade; i++) {
-            // 50% de chance de ser tipo A ou B
-            if (random.nextBoolean()) {
-                volumes[i] = random.nextInt(MAX_TIPO_A - MIN_TIPO_A + 1) + MIN_TIPO_A;
-            } else {
-                volumes[i] = random.nextInt(MAX_TIPO_B - MIN_TIPO_B + 1) + MIN_TIPO_B;
-            }
+            System.out.print("Volume do contêiner #" + (i + 1) + ": ");
+            volumes[i] = scanner.nextInt();
         }
 
         return volumes;
     }
 
-    // Tenta encaixar os volumes nos recipientes do jeito mais eficiente possível
     public static int calcularRecipientesNecessarios(Integer[] volumes, int capacidade) {
         List<Integer> recipientes = new ArrayList<>();
 
@@ -47,7 +36,6 @@ public class DescarregamentoNavio {
             }
 
             if (!encaixado) {
-                // Não coube em nenhum, vamos criar um novo recipiente
                 recipientes.add(volume);
             }
         }
@@ -56,41 +44,30 @@ public class DescarregamentoNavio {
     }
 
     public static void main(String[] args) {
-        Random random = new Random();
-        int quantidadeContainers = random.nextInt(MAX_CONTAINERS - MIN_CONTAINERS + 1) + MIN_CONTAINERS;
+        Integer[] volumesContainers = lerVolumesDoUsuario();
 
-        // Gerando os volumes dos contêineres que chegaram
-        int[] volumesContainers = gerarVolumesAleatorios(quantidadeContainers);
-
-        System.out.println("🚢 Total de contêineres descarregados: " + quantidadeContainers);
-        System.out.println("Volumes:");
+        System.out.println("\nVolumes inseridos:");
         System.out.println(Arrays.toString(volumesContainers));
 
-        // Convertendo pra Integer pra poder ordenar (Java, né...)
-        Integer[] volumesOrdenados = Arrays.stream(volumesContainers)
-                .boxed()
-                .sorted(Collections.reverseOrder()) // maior volume primeiro
-                .toArray(Integer[]::new);
+        // Ordena do maior para o menor (First Fit Decreasing)
+        Arrays.sort(volumesContainers, Collections.reverseOrder());
 
         System.out.println("\n🔽 Volumes ordenados (do maior pro menor):");
-        System.out.println(Arrays.toString(volumesOrdenados));
+        System.out.println(Arrays.toString(volumesContainers));
 
-        // Agora vamos ver quantos armazéns e caminhões precisaríamos
-        int armazens = calcularRecipientesNecessarios(volumesOrdenados, CAPACIDADE_ARMAZEM);
-        int caminhoes = calcularRecipientesNecessarios(volumesOrdenados, CAPACIDADE_CAMINHAO);
+        int armazens = calcularRecipientesNecessarios(volumesContainers, CAPACIDADE_ARMAZEM);
+        int caminhoes = calcularRecipientesNecessarios(volumesContainers, CAPACIDADE_CAMINHAO);
 
         System.out.println("\n📦 Armazéns necessários: " + armazens);
         System.out.println("🚛 Caminhões necessários: " + caminhoes);
 
-
-System.out.println(
-    "\nNOME DOS DESENVOLVEDORES DO CÓDIGO\n" +
-    "Caio Lemos Martins Rondini - 1262216435\n" +
-    "Ian Ramos Texeira - 12622111817\n" +
-    "Juliana Helena Mendes Pereira - 12622112925\n" +
-    "Luiz Marcelo dos Santos Nogueira - 1262216844\n" +
-    "Matheus Ferreira de Freitas - 12622112086\n"
-);
-
+        System.out.println(
+            "\nNOME DOS DESENVOLVEDORES DO CÓDIGO\n" +
+            "Caio Lemos Martins Rondini - 1262216435\n" +
+            "Ian Ramos Teixeira - 12622111817\n" + 
+            "Juliana Helena Mendes Pereira - 12622112925\n" +
+            "Luiz Marcelo dos Santos Nogueira - 1262216844\n" +
+            "Matheus Ferreira de Freitas - 12622112086\n" 
+        );
     }
 }
